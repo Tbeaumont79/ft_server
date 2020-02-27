@@ -14,13 +14,17 @@ RUN mv phpMyAdmin-4.9.0.1-all-languages /var/www/html/phpMyAdmin
 RUN rm phpMyAdmin-4.9.0.1-all-languages.tar.gz
 RUN rm /etc/nginx/sites-available/default
 RUN rm /etc/nginx/sites-enabled/default
-
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -subj "/C=FR/ST=75/L=Paris/O=NoOne/CN=192.168.99.102" -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt
 
 COPY ./srcs/script.sh script.sh
 COPY ./srcs/localhost /etc/nginx/sites-available/default
 COPY ./srcs/wordpress /etc/nginx/sites-available/
 COPY ./srcs/phpMyAdmin /etc/nginx/sites-available/
 COPY ./srcs/wp-config.php /var/www/html/wordpress/wp-config.php
-COPY ./srcs/handledatabase handledatabase
+COPY ./srcs/handledatabase .
 COPY ./srcs/index.php /var/www/html/index.php
+
+EXPOSE 80
+EXPOSE 443
+
 CMD ["bash", "script.sh"]
