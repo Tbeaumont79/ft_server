@@ -1,10 +1,9 @@
 service php7.3-fpm start
 service nginx start
 service mysql start
-cp /var/www/html/index.nginx-debian.html .
-rm /var/www/html/index.nginx-debian.html
 mysql -u root -p="root" < handledatabase
-cp localhost /etc/nginx/sites-available/localhost
+cp index.nginx-debian.html var/www/html/index.nginx-debian.html
+cp localhostwithoutautoindex /etc/nginx/sites-available/localhost
 sudo ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/localhost
 service nginx restart
 service mysql stop
